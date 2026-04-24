@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>智能导航中心 | 资源聚合站</title>
+    <title>状态监测中心 · 人类效率观察站</title>
     <!-- Font Awesome 6 (免费图标库) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts 增强字体体验 -->
+    <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,16 +14,13 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: #f5f7fb;
-            color: #1e293b;
+            background: #f4f7fc;
+            color: #1e2a3e;
             height: 100vh;
             overflow: hidden;
         }
-
-        /* 整体布局容器 */
         .app-container {
             display: flex;
             height: 100vh;
@@ -31,14 +28,14 @@
             position: relative;
         }
 
-        /* ========= 左侧导航栏 (桌面Sticky风格) ========= */
+        /* ========= 左侧导航栏 ========= */
         .sidebar {
             width: 280px;
             background: #ffffff;
-            border-right: 1px solid #e9eef3;
+            border-right: 1px solid #e6edf4;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 20px rgba(0,0,0,0.02);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.02);
             transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             z-index: 1000;
             overflow-y: auto;
@@ -47,63 +44,57 @@
             position: sticky;
             top: 0;
         }
-
-        /* Logo区域 */
         .logo-area {
             padding: 28px 24px 20px 24px;
-            border-bottom: 1px solid #eff3f8;
-            margin-bottom: 16px;
+            border-bottom: 1px solid #ecf3f9;
+            margin-bottom: 20px;
         }
         .logo {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -0.3px;
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            align-items: baseline;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #e67e22, #d35400);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
         .logo i {
             background: none;
-            background-clip: unset;
-            -webkit-background-clip: unset;
-            color: #3b82f6;
+            color: #e67e22;
             font-size: 28px;
         }
         .logo span {
-            background: linear-gradient(135deg, #1e40af, #4338ca);
+            background: linear-gradient(135deg, #e67e22, #d35400);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
         .sub {
-            font-size: 12px;
-            color: #6c757d;
+            font-size: 11px;
+            color: #7f8c8d;
             margin-top: 6px;
-            letter-spacing: 0.2px;
+            font-weight: 400;
         }
-
-        /* 导航按钮列表 */
         .nav-list {
             flex: 1;
             padding: 0 16px 24px 16px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
         .nav-btn {
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 12px 16px;
-            border-radius: 14px;
+            border-radius: 16px;
             font-weight: 500;
             font-size: 1rem;
-            color: #475569;
-            transition: all 0.2s ease;
+            color: #2c3e50;
+            transition: all 0.2s;
             cursor: pointer;
             background: transparent;
             border: none;
@@ -113,95 +104,88 @@
         }
         .nav-btn i {
             width: 24px;
-            font-size: 1.25rem;
-            color: #6c86a3;
+            font-size: 1.2rem;
+            color: #5d7a9c;
         }
         .nav-btn:hover {
-            background: #f1f5f9;
-            color: #1e293b;
+            background: #f0f5fa;
+            color: #e67e22;
         }
         .nav-btn.active {
-            background: #eef2ff;
-            color: #2563eb;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            background: #fef2e6;
+            color: #e67e22;
+            border-left: 3px solid #e67e22;
         }
         .nav-btn.active i {
-            color: #2563eb;
+            color: #e67e22;
         }
 
-        /* 右侧主内容区 (滚动区域) */
+        /* 右侧主内容区 */
         .main-content {
             flex: 1;
             overflow-y: auto;
-            background: #f9fafc;
+            background: #f9fbfd;
             scroll-behavior: smooth;
             padding: 0 32px 48px 32px;
             position: relative;
         }
-
-        /* 顶部搜索栏 */
+        /* 搜索栏 */
         .search-header {
             background: white;
-            border-radius: 28px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+            border-radius: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
             padding: 12px 20px;
             margin: 24px 0 32px 0;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 16px;
-            backdrop-filter: blur(2px);
-            border: 1px solid #edf2f7;
+            border: 1px solid #e2edf7;
         }
         .engine-selector {
             display: flex;
-            gap: 6px;
-            background: #f1f5f9;
+            gap: 8px;
+            background: #f1f6fa;
             padding: 4px;
             border-radius: 48px;
         }
         .engine-btn {
             border: none;
             background: transparent;
-            padding: 8px 20px;
+            padding: 8px 24px;
             border-radius: 40px;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
             transition: 0.2s;
-            color: #334155;
+            color: #2c3e50;
         }
         .engine-btn.active {
             background: white;
-            color: #2563eb;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            font-weight: 600;
+            color: #e67e22;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         .search-wrapper {
             flex: 1;
             display: flex;
             align-items: center;
             gap: 12px;
-            background: #f8fafc;
+            background: #ffffff;
             border-radius: 48px;
             padding: 4px 16px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #dee7ef;
             transition: 0.2s;
         }
         .search-wrapper:focus-within {
-            border-color: #3b82f6;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-        }
-        .search-wrapper i {
-            color: #94a3b8;
+            border-color: #e67e22;
+            box-shadow: 0 0 0 3px rgba(230,126,34,0.1);
         }
         .search-wrapper input {
             flex: 1;
             border: none;
             background: transparent;
             padding: 12px 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             outline: none;
             font-family: 'Inter', sans-serif;
         }
@@ -209,106 +193,106 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: #3b82f6;
-            font-weight: 500;
-            padding: 6px 12px;
+            color: #e67e22;
+            font-weight: 600;
+            padding: 8px 16px;
             border-radius: 32px;
             transition: 0.2s;
         }
         .search-wrapper button:hover {
-            background: #eef2ff;
+            background: #fef3e8;
         }
 
         /* 内容区块 */
         .category-section {
             scroll-margin-top: 24px;
-            margin-bottom: 48px;
+            margin-bottom: 56px;
         }
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 700;
-            letter-spacing: -0.4px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            border-left: 6px solid #e67e22;
+            padding-left: 20px;
             display: flex;
-            align-items: baseline;
+            align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            border-left: 5px solid #3b82f6;
-            padding-left: 18px;
         }
-        .section-title h2 {
-            font-size: 1.6rem;
-            font-weight: 600;
+        .section-title i {
+            color: #e67e22;
+            font-size: 28px;
         }
-
-        /* 二级分类 Tab 样式 */
+        /* 二级tab */
         .sub-tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0 20px 18px;
+            gap: 12px;
+            margin: 16px 0 20px 26px;
         }
         .tab-item {
-            padding: 8px 20px;
+            padding: 8px 24px;
             background: #ffffff;
             border-radius: 40px;
             font-weight: 500;
             font-size: 0.85rem;
-            color: #475569;
+            color: #4b6b8f;
             cursor: pointer;
             transition: all 0.2s;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.02);
+            border: 1px solid #dce5ef;
         }
         .tab-item.active {
-            background: #2563eb;
-            border-color: #2563eb;
+            background: #e67e22;
+            border-color: #e67e22;
             color: white;
-            box-shadow: 0 4px 8px rgba(37,99,235,0.2);
+            box-shadow: 0 6px 12px rgba(230,126,34,0.2);
         }
-        .tab-item:hover:not(.active) {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
-        }
-
-        /* 卡片网格布局 */
+        /* 卡片网格 */
         .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
             gap: 24px;
             margin-top: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
-        /* 卡片组件 */
         .card {
-            background: #ffffff;
-            border-radius: 24px;
+            background: white;
+            border-radius: 28px;
             padding: 20px;
             display: flex;
             gap: 18px;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
-            border: 1px solid #edf2f7;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.03);
+            border: 1px solid #eef3fc;
             cursor: pointer;
+            position: relative;
         }
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
-            border-color: #cbdffc;
-            background: #fefefe;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
+            border-color: #fad7b3;
+        }
+        /* 愤怒爆炸特效悬浮温度计动画 */
+        .card.angry-explode:hover {
+            animation: explodeTemp 0.4s ease-in-out 0s 2;
+            background: #fff2f0;
+            border-color: #e63946;
+        }
+        @keyframes explodeTemp {
+            0% { transform: scale(1); background: #fff; }
+            50% { transform: scale(1.02); background: #ffe5e2; box-shadow: 0 0 0 4px rgba(230,57,70,0.3);}
+            100% { transform: scale(1); background: #fff; }
         }
         .card-icon {
             flex-shrink: 0;
-            width: 52px;
-            height: 52px;
-            background: #eff6ff;
-            border-radius: 20px;
+            width: 56px;
+            height: 56px;
+            background: #fef4ea;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
-            color: #2563eb;
+            color: #e67e22;
         }
         .card-content {
             flex: 1;
@@ -317,30 +301,43 @@
             font-weight: 700;
             font-size: 1.1rem;
             margin-bottom: 6px;
-            color: #0f172a;
+            display: flex;
+            justify-content: space-between;
+        }
+        .card-value {
+            font-weight: 800;
+            background: #f0f4f9;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+        }
+        .high-value {
+            color: #e63946;
+            background: #ffe8e6;
         }
         .card-desc {
-            font-size: 0.85rem;
-            color: #5b6e8c;
-            line-height: 1.4;
+            font-size: 0.8rem;
+            color: #5a6e82;
+            line-height: 1.35;
+            margin-top: 4px;
         }
 
-        /* 汉堡菜单按钮 (移动端) */
+        /* 移动端适配 */
         .mobile-menu-btn {
             display: none;
             position: fixed;
             top: 18px;
-            left: 20px;
+            left: 18px;
             z-index: 1100;
             background: white;
             border: none;
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            font-size: 1.4rem;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            font-size: 1.6rem;
             cursor: pointer;
-            color: #1e293b;
+            color: #e67e22;
             align-items: center;
             justify-content: center;
         }
@@ -355,243 +352,248 @@
             z-index: 999;
             backdrop-filter: blur(2px);
         }
-
-        /* 响应式 */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: flex;
             }
             .sidebar {
                 position: fixed;
-                top: 0;
-                left: 0;
                 transform: translateX(-100%);
                 z-index: 1050;
                 width: 280px;
-                box-shadow: 5px 0 20px rgba(0,0,0,0.1);
             }
             .sidebar.open {
                 transform: translateX(0);
             }
             .main-content {
-                padding: 60px 20px 40px 20px;
-            }
-            .search-header {
-                margin-top: 8px;
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .engine-selector {
-                justify-content: center;
+                padding: 70px 20px 40px 20px;
             }
         }
-
-        /* 滚动条美化 */
         ::-webkit-scrollbar {
             width: 6px;
-            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #eef2f6;
-            border-radius: 8px;
+            background: #eef2f8;
         }
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #cbdbe2;
             border-radius: 8px;
         }
     </style>
 </head>
 <body>
 <div class="app-container">
-    <!-- 移动端遮罩层 -->
     <div class="overlay" id="overlay"></div>
-    <!-- 汉堡菜单按钮 -->
-    <button class="mobile-menu-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
+    <button class="mobile-menu-btn" id="crabMenu"><i class="fas fa-crab"></i></button>
 
-    <!-- 左侧导航栏 Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="logo-area">
             <div class="logo">
-                <i class="fas fa-compass"></i>
-                <span>智能内容中心</span>
+                <i class="fas fa-waveform"></i>
+                <span>xiexie</span>
             </div>
-            <div class="sub">导航 · 聚合 · 灵感</div>
+            <div class="sub">状态监测 · 快乐打工人观察器</div>
         </div>
-        <div class="nav-list" id="navList">
-            <!-- 动态注入导航按钮 js动态生成但也可以写静态，为了方便同步数据我们使用js动态渲染, 但为结构清晰静态占位+动态刷新 -->
-        </div>
+        <div class="nav-list" id="navList"></div>
     </aside>
 
-    <!-- 右侧主内容区 -->
     <main class="main-content" id="mainContent">
-        <!-- 搜索区 -->
         <div class="search-header">
             <div class="engine-selector" id="engineSelector">
-                <button data-engine="baidu" class="engine-btn active">百度</button>
-                <button data-engine="google" class="engine-btn">Google</button>
-                <button data-engine="bing" class="engine-btn">Bing</button>
+                <button data-engine="human" class="engine-btn active">🐻 人类</button>
+                <button data-engine="rabbit" class="engine-btn">🐇 小兔</button>
+                <button data-engine="monkey" class="engine-btn">🐒 猴子</button>
             </div>
             <div class="search-wrapper">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="输入关键词，多引擎一键搜索...">
-                <button id="searchBtn"><i class="fas fa-arrow-right"></i> 搜索</button>
+                <input type="text" id="searchKeyword" placeholder="输入加班 / 吃草 / 香蕉 等关键词... 影响监测指数">
+                <button id="searchActionBtn"><i class="fas fa-meteor"></i> 搜索·玄学变数</button>
             </div>
         </div>
-
-        <!-- 动态内容区域: 根据一级分类动态生成 category-section -->
         <div id="dynamicContent"></div>
     </main>
 </div>
 
 <script>
-    // ----------------------------- 模拟数据结构（一级分类 + 二级分类 + 卡片链接）--------------------------------
-    // 完全符合现代设计：精美卡片，可点击新标签页打开
-    const siteData = {
-        categories: [
-            { id: "dev", name: "开发资源", icon: "fa-code", order: 1 },
-            { id: "design", name: "设计灵感", icon: "fa-palette", order: 2 },
-            { id: "ai", name: "AI 工具", icon: "fa-brain", order: 3 },
-            { id: "productivity", name: "效率利器", icon: "fa-clock", order: 4 }
-        ],
-        // 每个一级分类对应的二级分类以及卡片
-        subcategories: {
-            dev: [
-                { name: "前端框架", key: "frontend" },
-                { name: "后端技术", key: "backend" },
-                { name: "开发者社区", key: "community" }
-            ],
-            design: [
-                { name: "设计系统", key: "designsys" },
-                { name: "素材资源", key: "assets" },
-                { name: "灵感案例", key: "inspire" }
-            ],
-            ai: [
-                { name: "大模型平台", key: "llm" },
-                { name: "AI绘画", key: "aipaint" },
-                { name: "效率AI", key: "aiefficiency" }
-            ],
-            productivity: [
-                { name: "笔记协作", key: "notes" },
-                { name: "自动化", key: "auto" },
-                { name: "时间管理", key: "timemgmt" }
-            ]
+    // ---------- 搞笑状态监测数据模型 ----------
+    // 一级分类
+    const categories = [
+        { id: "wisdom", name: "智慧指数", icon: "fa-brain", order: 1 },
+        { id: "health", name: "健康指数", icon: "fa-heartbeat", order: 2 },
+        { id: "mood", name: "心情指数", icon: "fa-face-smile", order: 3 },
+        { id: "vanish", name: "消失指数", icon: "fa-ghost", order: 4 },
+        { id: "anger", name: "愤怒指数", icon: "fa-fire", order: 5 }
+    ];
+
+    // 二级分类 & 卡片 (每个卡片包含：标题，指数值，描述，链接，图标)
+    // 为了方便动态更新，卡片数值(value)存储在模型中，并支持动态修改
+    let appData = {
+        wisdom: {
+            sub: [{ name: "脑力运转", key: "brain" }, { name: "决策质量", key: "decision" }],
+            cards: {
+                brain: [
+                    { id: "w_brain1", title: "智商余额", icon: "fa-microchip", value: 7, desc: "当前逻辑推理能力", url: "https://www.example.com/智商", defaultDesc: "当前逻辑推理能力" },
+                    { id: "w_brain2", title: "创意火花", icon: "fa-lightbulb", value: 6, desc: "灵感迸发频率", url: "https://www.example.com/创意" }
+                ],
+                decision: [
+                    { id: "w_dec1", title: "午餐选择力", icon: "fa-utensils", value: 8, desc: "纠结指数较低", url: "#" },
+                    { id: "w_dec2", title: "摸鱼时机", icon: "fa-fish", value: 5, desc: "偷懒智慧值", url: "#" }
+                ]
+            }
         },
-        // 卡片内容 [分类id][二级分类key] 返回卡片数组
-        cards: {
-            dev: {
-                frontend: [
-                    { title: "React 官方文档", desc: "现代化前端框架最新指南", icon: "fab fa-react", url: "https://react.dev/" },
-                    { title: "Vue.js 中文", desc: "渐进式JS框架，易用高效", icon: "fab fa-vuejs", url: "https://cn.vuejs.org/" },
-                    { title: "Tailwind CSS", desc: "实用优先CSS框架，快速构建", icon: "fab fa-css3-alt", url: "https://tailwindcss.com/" }
+        health: {
+            sub: [{ name: "体能状态", key: "energy" }, { name: "精神损伤", key: "spirit" }],
+            cards: {
+                energy: [
+                    { id: "h_eng1", title: "体力条", icon: "fa-bolt", value: 7, desc: "还能肝两小时", url: "#" },
+                    { id: "h_eng2", title: "颈椎预警", icon: "fa-spine", value: 4, desc: "咔咔作响", url: "#" }
                 ],
-                backend: [
-                    { title: "Node.js", desc: "JavaScript 服务端运行环境", icon: "fab fa-node-js", url: "https://nodejs.org/" },
-                    { title: "Python 官网", desc: "优雅简洁的后端语言", icon: "fab fa-python", url: "https://www.python.org/" },
-                    { title: "Go 语言", desc: "高性能后端开发利器", icon: "fab fa-golang", url: "https://go.dev/" }
-                ],
-                community: [
-                    { title: "GitHub", desc: "全球开发者开源协作平台", icon: "fab fa-github", url: "https://github.com/" },
-                    { title: "Stack Overflow", desc: "技术问答社区", icon: "fab fa-stack-overflow", url: "https://stackoverflow.com/" },
-                    { title: "掘金", desc: "国内优质技术博客社区", icon: "fas fa-gem", url: "https://juejin.cn/" }
+                spirit: [
+                    { id: "h_sp1", title: "眼神涣散度", icon: "fa-eye", value: 6, desc: "逐渐失焦", url: "#" },
+                    { id: "h_sp2", title: "咖啡依赖", icon: "fa-mug-hot", value: 9, desc: "血液里流淌着拿铁", url: "#" }
                 ]
-            },
-            design: {
-                designsys: [
-                    { title: "Material Design", desc: "Google 设计语言规范", icon: "fab fa-google", url: "https://material.io/" },
-                    { title: "Ant Design", desc: "企业级产品设计体系", icon: "fas fa-ants", url: "https://ant.design/" },
-                    { title: "Figma", desc: "在线协作UI设计工具", icon: "fab fa-figma", url: "https://www.figma.com/" }
+            }
+        },
+        mood: {
+            sub: [{ name: "快乐指数", key: "happy" }, { name: "社畜笑颜", key: "smile" }],
+            cards: {
+                happy: [
+                    { id: "m_happy1", title: "愉悦值", icon: "fa-face-grin-tongue-squint", value: 5, desc: "今天有点小确丧", url: "#" },
+                    { id: "m_happy2", title: "吐槽能量", icon: "fa-comment-dots", value: 8, desc: "毒舌储备充足", url: "#" }
                 ],
-                assets: [
-                    { title: "Unsplash", desc: "免费高质量图片", icon: "fas fa-image", url: "https://unsplash.com/" },
-                    { title: "Iconify", desc: "海量开源图标库", icon: "fas fa-icons", url: "https://iconify.design/" },
-                    { title: "Freepik", desc: "矢量插画与设计资源", icon: "fas fa-paintbrush", url: "https://www.freepik.com/" }
-                ],
-                inspire: [
-                    { title: "Awwwards", desc: "网页设计颁奖展示", icon: "fas fa-trophy", url: "https://www.awwwards.com/" },
-                    { title: "Behance", desc: "创意设计作品集", icon: "fab fa-behance", url: "https://www.behance.net/" },
-                    { title: "Dribbble", desc: "设计师社区灵感", icon: "fab fa-dribbble", url: "https://dribbble.com/" }
+                smile: [
+                    { id: "m_smile1", title: "假笑功力", icon: "fa-face-smile-wink", value: 7, desc: "面对甲方专业假笑", url: "#" },
+                    { id: "m_smile2", title: "下班倒计时笑容", icon: "fa-clock", value: 9, desc: "越临近越高", url: "#" }
                 ]
-            },
-            ai: {
-                llm: [
-                    { title: "OpenAI", desc: "GPT系列模型与API", icon: "fas fa-robot", url: "https://openai.com/" },
-                    { title: "DeepSeek", desc: "中文领先大模型平台", icon: "fas fa-microchip", url: "https://www.deepseek.com/" },
-                    { title: "Claude AI", desc: "安全高情商助手", icon: "fas fa-comment-dots", url: "https://claude.ai/" }
+            }
+        },
+        vanish: {
+            sub: [{ name: "存在感", key: "exist" }, { name: "摸鱼隐身术", key: "stealth" }],
+            cards: {
+                exist: [
+                    { id: "v_ex1", title: "会议存在感", icon: "fa-users", value: 3, desc: "小透明附体", url: "#" },
+                    { id: "v_ex2", title: "工位可见度", icon: "fa-chair", value: 6, desc: "偶尔消失", url: "#" }
                 ],
-                aipaint: [
-                    { title: "Midjourney", desc: "顶尖AI绘画工具", icon: "fas fa-palette", url: "https://www.midjourney.com/" },
-                    { title: "Stable Diffusion", desc: "开源绘画模型", icon: "fas fa-cloud-upload-alt", url: "https://stability.ai/" },
-                    { title: "Leonardo.ai", desc: "创意生成平台", icon: "fas fa-dragon", url: "https://leonardo.ai/" }
-                ],
-                aiefficiency: [
-                    { title: "Notion AI", desc: "文档智能助手", icon: "fas fa-file-alt", url: "https://www.notion.so/" },
-                    { title: "Gamma", desc: "AI生成PPT工具", icon: "fas fa-chalkboard", url: "https://gamma.app/" },
-                    { title: "Perplexity AI", desc: "智能答案引擎", icon: "fas fa-search", url: "https://www.perplexity.ai/" }
+                stealth: [
+                    { id: "v_st1", title: "厕所遁术", icon: "fa-toilet", value: 8, desc: "消失大师级", url: "#" },
+                    { id: "v_st2", title: "假装忙碌", icon: "fa-laptop-code", value: 7, desc: "皱眉凝视屏幕", url: "#" }
                 ]
-            },
-            productivity: {
-                notes: [
-                    { title: "Notion", desc: "一体化工作空间", icon: "fas fa-book", url: "https://www.notion.so/" },
-                    { title: "Obsidian", desc: "双链笔记知识库", icon: "fas fa-database", url: "https://obsidian.md/" },
-                    { title: "飞书文档", desc: "企业协作文档", icon: "fas fa-cloud", url: "https://www.feishu.cn/" }
+            }
+        },
+        anger: {
+            sub: [{ name: "易燃易爆", key: "explode" }, { name: "核平前摇", key: "nuclear" }],
+            cards: {
+                explode: [
+                    { id: "a_exp1", title: "怒气值", icon: "fa-face-angry", value: 2, desc: "岁月静好", url: "#" },
+                    { id: "a_exp2", title: "摔鼠标冲动", icon: "fa-computer-mouse", value: 1, desc: "温柔如羊", url: "#" }
                 ],
-                auto: [
-                    { title: "Zapier", desc: "自动化工作流连接器", icon: "fas fa-link", url: "https://zapier.com/" },
-                    { title: "Make", desc: "可视化自动化平台", icon: "fas fa-cogs", url: "https://www.make.com/" },
-                    { title: "IFTTT", desc: "互联网触发联动", icon: "fas fa-bolt", url: "https://ifttt.com/" }
-                ],
-                timemgmt: [
-                    { title: "Trello", desc: "看板任务管理", icon: "fab fa-trello", url: "https://trello.com/" },
-                    { title: "Todoist", desc: "待办清单工具", icon: "fas fa-check-circle", url: "https://todoist.com/" },
-                    { title: "Forest", desc: "专注番茄钟", icon: "fas fa-tree", url: "https://www.forestapp.cc/" }
+                nuclear: [
+                    { id: "a_nuc1", title: "毁灭倾向", icon: "fa-radiation", value: 1, desc: "核平使者", url: "#" },
+                    { id: "a_nuc2", title: "忍耐阈值", icon: "fa-gauge-high", value: 4, desc: "尚有空间", url: "#" }
                 ]
             }
         }
     };
 
-    // 存储当前每个分类下激活的二级Tab (key: 一级分类id, value: 当前二级分类key)
+    // 存储当前激活的二级分类 tab (每个一级分类下)
     let activeSubTab = {
-        dev: "frontend",
-        design: "designsys",
-        ai: "llm",
-        productivity: "notes"
+        wisdom: "brain",
+        health: "energy",
+        mood: "happy",
+        vanish: "exist",
+        anger: "explode"
     };
+    // 爆炸标记集合 (记录需要爆炸动画的卡片id)
+    let angryExplodeSet = new Set(); // 存储卡片id
 
-    // 获取dom元素
-    const mainContainer = document.getElementById("dynamicContent");
-    const navListEl = document.getElementById("navList");
-    const sidebar = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
-    const menuToggle = document.getElementById("menuToggle");
-    const mainContent = document.getElementById("mainContent");
-
-    // 渲染整个页面：左侧导航 + 右侧所有分类区域 + 卡片 + tab事件
-    function renderFullPage() {
-        renderSidebarNav();
-        renderContentSections();
-        attachScrollSpy();      // 滚动监听
-        attachNavClickEvents(); // 左侧点击平滑滚动
-        attachTabEvents();      // 动态绑定tab切换
-        attachCardClickEvents();// 卡片点击新窗口
-        highlightActiveNavByScroll(); // 初始滚动位置高亮
+    // 辅助深拷贝值更新后保留引用
+    function updateCardValue(categoryId, subKey, cardId, newValue, newDesc = null) {
+        const category = appData[categoryId];
+        if (category && category.cards[subKey]) {
+            const card = category.cards[subKey].find(c => c.id === cardId);
+            if (card) {
+                card.value = Math.min(10, Math.max(0, newValue));
+                if (newDesc) card.desc = newDesc;
+                return true;
+            }
+        }
+        return false;
     }
 
-    // 渲染左侧导航按钮
-    function renderSidebarNav() {
-        navListEl.innerHTML = "";
-        siteData.categories.sort((a,b)=>a.order-b.order).forEach(cat => {
-            const btn = document.createElement("button");
-            btn.className = "nav-btn";
-            btn.dataset.id = cat.id;
-            btn.innerHTML = `<i class="fas ${cat.icon}"></i><span>${cat.name}</span>`;
-            navListEl.appendChild(btn);
-        });
+    // 根据引擎&关键词改变各指数（搞笑逻辑）
+    function applyMagicEffect(engine, keyword) {
+        // 重置爆炸标记（每次搜索重新评估）
+        angryExplodeSet.clear();
+        const kw = keyword.toLowerCase().trim();
+        // 人类特殊
+        if (engine === "human") {
+            if (kw.includes("加班")) {
+                updateCardValue("wisdom", "brain", "w_brain1", 1, "加班榨干智商，只剩机械反应");
+                updateCardValue("mood", "happy", "m_happy1", 0, "快乐蒸发，生无可恋");
+                updateCardValue("anger", "explode", "a_exp1", 10, "🔥🔥🔥 怒发冲冠 🔥🔥🔥");
+                angryExplodeSet.add("a_exp1");   // 标记爆炸动画卡片
+                updateCardValue("health", "energy", "h_eng1", 2, "体力归零，被掏空");
+            } 
+            else if (kw.includes("吃草")) {
+                updateCardValue("mood", "happy", "m_happy1", 3, "吃草使人忧郁，快乐值低");
+            }
+            else if (kw.includes("摸鱼")) {
+                updateCardValue("vanish", "stealth", "v_st1", 10, "摸鱼王者，瞬间消失");
+                updateCardValue("wisdom", "brain", "w_brain1", 9, "摸鱼激发智慧创造力");
+            }
+        } 
+        else if (engine === "rabbit") {
+            if (kw.includes("吃草")) {
+                updateCardValue("mood", "happy", "m_happy1", 10, "兔子吃草！快乐拉满！蹦蹦跳跳");
+                updateCardValue("health", "energy", "h_eng1", 9, "充满胡萝卜力量");
+            }
+            else if (kw.includes("加班")) {
+                updateCardValue("anger", "explode", "a_exp1", 8, "兔子也暴躁，啃键盘");
+                angryExplodeSet.add("a_exp1");
+            }
+            else if (kw.includes("胡萝卜")) {
+                updateCardValue("mood", "happy", "m_happy1", 10, "看到胡萝卜直接升天");
+            }
+        } 
+        else if (engine === "monkey") {
+            if (kw.includes("香蕉")) {
+                updateCardValue("vanish", "exist", "v_ex1", 0, "猴子偷香蕉，存在感归零");
+                updateCardValue("anger", "explode", "a_exp1", 9, "猴子抢走香蕉，愤怒暴涨");
+                angryExplodeSet.add("a_exp1");
+            }
+            else if (kw.includes("爬树")) {
+                updateCardValue("health", "energy", "h_eng1", 10, "猴子体力无敌");
+            }
+            else if (kw.includes("捣乱")) {
+                updateCardValue("wisdom", "brain", "w_brain1", 2, "捣乱降智");
+            }
+        }
+        // 额外通用彩蛋
+        if (kw.includes("放假")) {
+            updateCardValue("mood", "happy", "m_happy1", 10, "听到放假直接颅内高潮");
+            updateCardValue("anger", "explode", "a_exp1", 0, "瞬间没脾气");
+        }
+        if (kw.includes("老板")) {
+            updateCardValue("anger", "explode", "a_exp1", 9, "老板出现，血压拉满");
+            angryExplodeSet.add("a_exp1");
+        }
+        // 确保数值边界 再渲染
     }
 
-    // 生成右侧所有内容区 (包含每个分类的标题，二级tabs，卡片网格)
-    function renderContentSections() {
-        mainContainer.innerHTML = "";
-        const sortedCats = [...siteData.categories].sort((a,b)=>a.order-b.order);
+    // 打开搜索引擎新标签页 (根据引擎)
+    function openWebSearch(engine, keyword) {
+        let searchUrl = "";
+        if (engine === "human") searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`;
+        else if (engine === "rabbit") searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(keyword)}`;
+        else searchUrl = `https://www.so.com/s?q=${encodeURIComponent(keyword)}`;
+        window.open(searchUrl, "_blank");
+    }
+
+    // ---------- 动态渲染右侧内容 (完全基于appData + activeSubTab + 爆炸标记) ----------
+    function renderMainContent() {
+        const container = document.getElementById("dynamicContent");
+        container.innerHTML = "";
+        const sortedCats = [...categories].sort((a,b)=>a.order-b.order);
         for (let cat of sortedCats) {
             const section = document.createElement("section");
             section.className = "category-section";
@@ -600,196 +602,156 @@
             // 标题
             const titleDiv = document.createElement("div");
             titleDiv.className = "section-title";
-            titleDiv.innerHTML = `<h2><i class="fas ${cat.icon}" style="margin-right:12px"></i> ${cat.name}</h2>`;
+            titleDiv.innerHTML = `<i class="fas ${cat.icon}"></i><h2>${cat.name}</h2>`;
             section.appendChild(titleDiv);
 
-            // 二级分类tabs容器
-            const subTabsContainer = document.createElement("div");
-            subTabsContainer.className = "sub-tabs";
-            subTabsContainer.id = `tabs-${cat.id}`;
-            const subList = siteData.subcategories[cat.id] || [];
-            subList.forEach(sub => {
-                const tabBtn = document.createElement("div");
-                tabBtn.className = `tab-item ${activeSubTab[cat.id] === sub.key ? 'active' : ''}`;
-                tabBtn.dataset.category = cat.id;
-                tabBtn.dataset.subkey = sub.key;
-                tabBtn.innerText = sub.name;
-                subTabsContainer.appendChild(tabBtn);
+            // 二级tabs
+            const subData = appData[cat.id].sub;
+            const tabsContainer = document.createElement("div");
+            tabsContainer.className = "sub-tabs";
+            subData.forEach(sub => {
+                const tab = document.createElement("div");
+                tab.className = `tab-item ${activeSubTab[cat.id] === sub.key ? 'active' : ''}`;
+                tab.dataset.category = cat.id;
+                tab.dataset.subkey = sub.key;
+                tab.innerText = sub.name;
+                tabsContainer.appendChild(tab);
             });
-            section.appendChild(subTabsContainer);
+            section.appendChild(tabsContainer);
 
-            // 卡片网格容器 (多个二级分类的网格，但通过js控制显示隐藏)
-            const gridWrapper = document.createElement("div");
-            gridWrapper.id = `grid-wrapper-${cat.id}`;
-            // 为每个二级分类单独建一个grid，方便切换显示隐藏
-            const subKeys = subList.map(s => s.key);
-            subKeys.forEach(key => {
-                const gridDiv = document.createElement("div");
-                gridDiv.className = "card-grid";
-                gridDiv.id = `grid-${cat.id}-${key}`;
-                gridDiv.style.display = (activeSubTab[cat.id] === key) ? "grid" : "none";
-                // 填充卡片
-                const cardsArray = siteData.cards[cat.id]?.[key] || [];
-                cardsArray.forEach(card => {
-                    const cardEl = createCardElement(card);
-                    gridDiv.appendChild(cardEl);
-                });
-                gridWrapper.appendChild(gridDiv);
+            // 卡片网格: 只显示当前激活的二级分类对应的卡片组
+            const currentSubKey = activeSubTab[cat.id];
+            const cardsArray = appData[cat.id].cards[currentSubKey] || [];
+            const gridDiv = document.createElement("div");
+            gridDiv.className = "card-grid";
+            cardsArray.forEach(card => {
+                const cardDiv = document.createElement("div");
+                cardDiv.className = "card";
+                if (angryExplodeSet.has(card.id)) {
+                    cardDiv.classList.add("angry-explode");
+                }
+                cardDiv.setAttribute("data-url", card.url || "https://www.zhihu.com/question/29186054");
+                // 指数值特殊红色高亮处理
+                const isHighAngry = (card.id === "a_exp1" && card.value >= 8);
+                const valueSpan = `<span class="card-value ${isHighAngry ? 'high-value' : ''}">🔥 ${card.value}/10</span>`;
+                cardDiv.innerHTML = `
+                    <div class="card-icon"><i class="${card.icon}"></i></div>
+                    <div class="card-content">
+                        <div class="card-title">
+                            ${card.title}
+                            ${valueSpan}
+                        </div>
+                        <div class="card-desc">${card.desc}</div>
+                    </div>
+                `;
+                gridDiv.appendChild(cardDiv);
             });
-            section.appendChild(gridWrapper);
-            mainContainer.appendChild(section);
+            section.appendChild(gridDiv);
+            container.appendChild(section);
         }
+        // 重新绑定卡片点击事件
+        attachCardClickEvents();
+        // 重新绑定tab切换事件
+        attachTabEvents();
+        // 重新绑定滚动监听 & 高亮修正 (因为dom变化)
+        attachScrollSpy();
+        highlightActiveNavByScroll();
     }
 
-    // 创建卡片DOM (图标 + 标题 + 描述， 点击新窗口)
-    function createCardElement(card) {
-        const cardDiv = document.createElement("div");
-        cardDiv.className = "card";
-        // 存储链接
-        cardDiv.setAttribute("data-url", card.url);
-        cardDiv.innerHTML = `
-            <div class="card-icon"><i class="${card.icon}"></i></div>
-            <div class="card-content">
-                <div class="card-title">${escapeHtml(card.title)}</div>
-                <div class="card-desc">${escapeHtml(card.desc)}</div>
-            </div>
-        `;
-        return cardDiv;
-    }
-
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    // 绑定卡片点击事件（委托）
     function attachCardClickEvents() {
-        mainContainer.querySelectorAll(".card").forEach(card => {
+        document.querySelectorAll(".card").forEach(card => {
             card.removeEventListener("click", cardClickHandler);
             card.addEventListener("click", cardClickHandler);
         });
     }
-
     function cardClickHandler(e) {
         const url = this.getAttribute("data-url");
-        if (url) {
-            window.open(url, "_blank", "noopener,noreferrer");
-        }
+        if (url && url !== "#") window.open(url, "_blank");
+        else window.open("https://www.xiaoyuzhoufm.com/", "_blank");
     }
-
-    // 二级Tab切换事件 (动态绑定)
     function attachTabEvents() {
-        const allTabs = document.querySelectorAll(".tab-item");
-        allTabs.forEach(tab => {
+        document.querySelectorAll(".tab-item").forEach(tab => {
             tab.removeEventListener("click", tabClickHandler);
             tab.addEventListener("click", tabClickHandler);
         });
     }
-
     function tabClickHandler(e) {
         const category = this.dataset.category;
         const subkey = this.dataset.subkey;
         if (!category || !subkey) return;
-        // 更新 activeSubTab 状态
         activeSubTab[category] = subkey;
-        // 更新当前分类下所有tab样式
-        const tabsContainer = document.getElementById(`tabs-${category}`);
-        if (tabsContainer) {
-            Array.from(tabsContainer.children).forEach(child => {
-                if (child.dataset.subkey === subkey) {
-                    child.classList.add("active");
-                } else {
-                    child.classList.remove("active");
-                }
-            });
-        }
-        // 切换对应的卡片网格显示
-        const wrapper = document.getElementById(`grid-wrapper-${category}`);
-        if (wrapper) {
-            const allGrids = wrapper.querySelectorAll(".card-grid");
-            allGrids.forEach(grid => {
-                const gridId = grid.id;
-                const expectedSuffix = `-${subkey}`;
-                if (gridId.endsWith(expectedSuffix)) {
-                    grid.style.display = "grid";
-                } else {
-                    grid.style.display = "none";
-                }
-            });
-        }
-        // 重新挂载卡片点击事件
-        attachCardClickEvents();
+        renderMainContent();      // 重新渲染右侧
+        attachNavClickEvents();   // 保证左侧导航点击依然有效
+        attachScrollSpy();
     }
 
-    // 滚动监听: 高亮左侧导航
-    function attachScrollSpy() {
-        mainContent.addEventListener("scroll", () => {
-            highlightActiveNavByScroll();
+    // 左侧导航渲染
+    function renderSidebarNav() {
+        const navContainer = document.getElementById("navList");
+        navContainer.innerHTML = "";
+        categories.sort((a,b)=>a.order-b.order).forEach(cat => {
+            const btn = document.createElement("button");
+            btn.className = "nav-btn";
+            btn.dataset.id = cat.id;
+            btn.innerHTML = `<i class="fas ${cat.icon}"></i><span>${cat.name}</span>`;
+            navContainer.appendChild(btn);
         });
+        attachNavClickEvents();
     }
-
-    function highlightActiveNavByScroll() {
-        const sections = document.querySelectorAll(".category-section");
-        let currentSectionId = null;
-        const scrollPos = mainContent.scrollTop + 100;
-        sections.forEach(section => {
-            const offsetTop = section.offsetTop;
-            const offsetBottom = offsetTop + section.offsetHeight;
-            if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
-                currentSectionId = section.dataset.category;
-            }
-        });
-        if (!currentSectionId && sections.length) currentSectionId = sections[0]?.dataset.category;
-        const navBtns = document.querySelectorAll(".nav-btn");
-        navBtns.forEach(btn => {
-            if (btn.dataset.id === currentSectionId) {
-                btn.classList.add("active");
-            } else {
-                btn.classList.remove("active");
-            }
-        });
-    }
-
-    // 点击左侧导航平滑滚动
     function attachNavClickEvents() {
-        const navBtns = document.querySelectorAll(".nav-btn");
-        navBtns.forEach(btn => {
+        document.querySelectorAll(".nav-btn").forEach(btn => {
             btn.removeEventListener("click", navClickHandler);
             btn.addEventListener("click", navClickHandler);
         });
     }
-
     function navClickHandler(e) {
         const catId = this.dataset.id;
-        const targetSection = document.getElementById(`section-${catId}`);
-        if (targetSection) {
-            targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
-            // 移动端点击后自动关闭侧边栏
-            if (window.innerWidth <= 768) {
-                closeSidebar();
-            }
+        const target = document.getElementById(`section-${catId}`);
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            if (window.innerWidth <= 768) closeSidebar();
         }
     }
-
-    // 移动端菜单逻辑
-    function openSidebar() {
-        sidebar.classList.add("open");
-        overlay.style.display = "block";
+    // 滚动监听 + 高亮
+    let scrollListenerActive = false;
+    function attachScrollSpy() {
+        if (scrollListenerActive) {
+            document.getElementById("mainContent")?.removeEventListener("scroll", scrollSpyHandler);
+        }
+        const scrollEl = document.getElementById("mainContent");
+        if (scrollEl) {
+            scrollEl.addEventListener("scroll", scrollSpyHandler);
+            scrollListenerActive = true;
+        }
+        highlightActiveNavByScroll();
     }
-    function closeSidebar() {
-        sidebar.classList.remove("open");
-        overlay.style.display = "none";
+    function scrollSpyHandler() {
+        highlightActiveNavByScroll();
     }
-    menuToggle.addEventListener("click", openSidebar);
-    overlay.addEventListener("click", closeSidebar);
+    function highlightActiveNavByScroll() {
+        const sections = document.querySelectorAll(".category-section");
+        let currentId = null;
+        const scrollContainer = document.getElementById("mainContent");
+        if (!scrollContainer) return;
+        const scrollPos = scrollContainer.scrollTop + 100;
+        for (let sec of sections) {
+            const offsetTop = sec.offsetTop;
+            const offsetBottom = offsetTop + sec.offsetHeight;
+            if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
+                currentId = sec.dataset.category;
+                break;
+            }
+        }
+        if (!currentId && sections.length) currentId = sections[0]?.dataset.category;
+        document.querySelectorAll(".nav-btn").forEach(btn => {
+            if (btn.dataset.id === currentId) btn.classList.add("active");
+            else btn.classList.remove("active");
+        });
+    }
 
-    // 多引擎搜索功能
-    let currentEngine = "baidu";
-    function initSearchEngine() {
+    // 搜索逻辑整合
+    let currentEngine = "human";
+    function initSearch() {
         const engineBtns = document.querySelectorAll(".engine-btn");
         engineBtns.forEach(btn => {
             btn.addEventListener("click", () => {
@@ -798,31 +760,41 @@
                 currentEngine = btn.dataset.engine;
             });
         });
-        const searchInput = document.getElementById("searchInput");
-        const searchBtn = document.getElementById("searchBtn");
-        const doSearch = () => {
-            const keyword = searchInput.value.trim();
-            if (!keyword) return;
-            let searchUrl = "";
-            if (currentEngine === "baidu") searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`;
-            else if (currentEngine === "google") searchUrl = `https://www.google.com/search?q=${encodeURIComponent(keyword)}`;
-            else if (currentEngine === "bing") searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(keyword)}`;
-            window.open(searchUrl, "_blank");
+        const searchInput = document.getElementById("searchKeyword");
+        const searchBtn = document.getElementById("searchActionBtn");
+        const doSearchAndEffect = () => {
+            let keyword = searchInput.value.trim();
+            if (keyword === "") return;
+            // 1. 改变指数（搞笑模拟）
+            applyMagicEffect(currentEngine, keyword);
+            // 2. 重新渲染整个右侧区域，显示新指数+爆炸动画卡片
+            renderMainContent();
+            attachNavClickEvents();
+            // 3. 打开真实搜索引擎搜索（满足多引擎切换搜索需求）
+            openWebSearch(currentEngine, keyword);
         };
-        searchBtn.addEventListener("click", doSearch);
-        searchInput.addEventListener("keypress", (e) => { if (e.key === "Enter") doSearch(); });
+        searchBtn.addEventListener("click", doSearchAndEffect);
+        searchInput.addEventListener("keypress", (e) => { if (e.key === "Enter") doSearchAndEffect(); });
     }
 
-    // 整体初始化
+    // 移动端sidebar控制
+    const sidebarEl = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const crabBtn = document.getElementById("crabMenu");
+    function openSidebar() { sidebarEl.classList.add("open"); overlay.style.display = "block"; }
+    function closeSidebar() { sidebarEl.classList.remove("open"); overlay.style.display = "none"; }
+    crabBtn.addEventListener("click", openSidebar);
+    overlay.addEventListener("click", closeSidebar);
+    window.addEventListener("resize", () => { if (window.innerWidth > 768) closeSidebar(); });
+
+    // 初始化
     function init() {
-        renderFullPage();
-        initSearchEngine();
-        // 窗口resize时关闭侧边栏防止异常
-        window.addEventListener("resize", () => {
-            if (window.innerWidth > 768) closeSidebar();
-        });
+        renderSidebarNav();
+        renderMainContent();
+        initSearch();
+        attachScrollSpy();
+        attachNavClickEvents();
     }
-
     init();
 </script>
 </body>

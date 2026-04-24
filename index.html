@@ -2,800 +2,199 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>状态监测中心 · 人类效率观察站</title>
-    <!-- Font Awesome 6 (免费图标库) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxy的demooo | 创意工坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #f4f7fc;
-            color: #1e2a3e;
+            background: #f1f5f9;
             height: 100vh;
             overflow: hidden;
         }
-        .app-container {
+        .app {
             display: flex;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
+            height: 100%;
         }
-
-        /* ========= 左侧导航栏 ========= */
+        /* 侧边栏 */
         .sidebar {
-            width: 280px;
-            background: #ffffff;
-            border-right: 1px solid #e6edf4;
+            width: 300px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.02);
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            z-index: 1000;
             overflow-y: auto;
             flex-shrink: 0;
-            height: 100vh;
-            position: sticky;
-            top: 0;
         }
-        .logo-area {
-            padding: 28px 24px 20px 24px;
-            border-bottom: 1px solid #ecf3f9;
-            margin-bottom: 20px;
+        .profile {
+            padding: 28px 20px;
+            border-bottom: 1px solid #eef2ff;
         }
-        .logo {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            font-weight: 800;
+        .profile h1 {
             font-size: 1.8rem;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #e67e22, #d35400);
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
         }
-        .logo i {
-            background: none;
-            color: #e67e22;
-            font-size: 28px;
-        }
-        .logo span {
-            background: linear-gradient(135deg, #e67e22, #d35400);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        .sub {
-            font-size: 11px;
-            color: #7f8c8d;
-            margin-top: 6px;
-            font-weight: 400;
-        }
-        .nav-list {
+        .demo-list {
             flex: 1;
-            padding: 0 16px 24px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-weight: 500;
-            font-size: 1rem;
-            color: #2c3e50;
-            transition: all 0.2s;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-family: inherit;
-        }
-        .nav-btn i {
-            width: 24px;
-            font-size: 1.2rem;
-            color: #5d7a9c;
-        }
-        .nav-btn:hover {
-            background: #f0f5fa;
-            color: #e67e22;
-        }
-        .nav-btn.active {
-            background: #fef2e6;
-            color: #e67e22;
-            border-left: 3px solid #e67e22;
-        }
-        .nav-btn.active i {
-            color: #e67e22;
-        }
-
-        /* 右侧主内容区 */
-        .main-content {
-            flex: 1;
-            overflow-y: auto;
-            background: #f9fbfd;
-            scroll-behavior: smooth;
-            padding: 0 32px 48px 32px;
-            position: relative;
-        }
-        /* 搜索栏 */
-        .search-header {
-            background: white;
-            border-radius: 32px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
-            padding: 12px 20px;
-            margin: 24px 0 32px 0;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 16px;
-            border: 1px solid #e2edf7;
-        }
-        .engine-selector {
-            display: flex;
-            gap: 8px;
-            background: #f1f6fa;
-            padding: 4px;
-            border-radius: 48px;
-        }
-        .engine-btn {
-            border: none;
-            background: transparent;
-            padding: 8px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #2c3e50;
-        }
-        .engine-btn.active {
-            background: white;
-            color: #e67e22;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .search-wrapper {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #ffffff;
-            border-radius: 48px;
-            padding: 4px 16px;
-            border: 1px solid #dee7ef;
-            transition: 0.2s;
-        }
-        .search-wrapper:focus-within {
-            border-color: #e67e22;
-            box-shadow: 0 0 0 3px rgba(230,126,34,0.1);
-        }
-        .search-wrapper input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 12px 0;
-            font-size: 0.9rem;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        .search-wrapper button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #e67e22;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 32px;
-            transition: 0.2s;
-        }
-        .search-wrapper button:hover {
-            background: #fef3e8;
-        }
-
-        /* 内容区块 */
-        .category-section {
-            scroll-margin-top: 24px;
-            margin-bottom: 56px;
-        }
-        .section-title {
-            font-size: 1.7rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            border-left: 6px solid #e67e22;
-            padding-left: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .section-title i {
-            color: #e67e22;
-            font-size: 28px;
-        }
-        /* 二级tab */
-        .sub-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 16px 0 20px 26px;
-        }
-        .tab-item {
-            padding: 8px 24px;
-            background: #ffffff;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: #4b6b8f;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid #dce5ef;
-        }
-        .tab-item.active {
-            background: #e67e22;
-            border-color: #e67e22;
-            color: white;
-            box-shadow: 0 6px 12px rgba(230,126,34,0.2);
-        }
-        /* 卡片网格 */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-            gap: 24px;
-            margin-top: 12px;
-            margin-bottom: 16px;
-        }
-        .card {
-            background: white;
-            border-radius: 28px;
             padding: 20px;
             display: flex;
-            gap: 18px;
-            transition: all 0.25s ease;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.03);
-            border: 1px solid #eef3fc;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .demo-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 16px;
             cursor: pointer;
-            position: relative;
+            transition: 0.2s;
+            border: 1px solid #e2e8f0;
         }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
-            border-color: #fad7b3;
+        .demo-card.active {
+            background: #eef2ff;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        /* 愤怒爆炸特效悬浮温度计动画 */
-        .card.angry-explode:hover {
-            animation: explodeTemp 0.4s ease-in-out 0s 2;
-            background: #fff2f0;
-            border-color: #e63946;
-        }
-        @keyframes explodeTemp {
-            0% { transform: scale(1); background: #fff; }
-            50% { transform: scale(1.02); background: #ffe5e2; box-shadow: 0 0 0 4px rgba(230,57,70,0.3);}
-            100% { transform: scale(1); background: #fff; }
-        }
-        .card-icon {
-            flex-shrink: 0;
-            width: 56px;
-            height: 56px;
-            background: #fef4ea;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: #e67e22;
-        }
-        .card-content {
-            flex: 1;
-        }
-        .card-title {
-            font-weight: 700;
-            font-size: 1.1rem;
+        .demo-card h3 {
+            font-weight: 600;
             margin-bottom: 6px;
+        }
+        .demo-card p {
+            font-size: 0.8rem;
+            color: #475569;
+        }
+        /* 右侧预览区 */
+        .preview {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .toolbar {
+            background: white;
+            padding: 12px 24px;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
-        }
-        .card-value {
-            font-weight: 800;
-            background: #f0f4f9;
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-        }
-        .high-value {
-            color: #e63946;
-            background: #ffe8e6;
-        }
-        .card-desc {
-            font-size: 0.8rem;
-            color: #5a6e82;
-            line-height: 1.35;
-            margin-top: 4px;
-        }
-
-        /* 移动端适配 */
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 18px;
-            left: 18px;
-            z-index: 1100;
-            background: white;
-            border: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 30px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-            font-size: 1.6rem;
-            cursor: pointer;
-            color: #e67e22;
             align-items: center;
-            justify-content: center;
         }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        .toolbar button {
+            background: #f1f5f9;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        iframe {
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.3);
-            z-index: 999;
-            backdrop-filter: blur(2px);
+            border: none;
+            background: white;
         }
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: flex;
-            }
-            .sidebar {
-                position: fixed;
-                transform: translateX(-100%);
-                z-index: 1050;
-                width: 280px;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-content {
-                padding: 70px 20px 40px 20px;
-            }
+        @media (max-width: 700px) {
+            .sidebar { position: fixed; left: -300px; transition: 0.3s; z-index: 10; height: 100%; }
+            .sidebar.open { left: 0; }
+            .menu-btn { display: block; position: fixed; top: 15px; left: 15px; z-index: 20; background: white; border-radius: 30px; padding: 10px 14px; }
         }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #eef2f8;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbdbe2;
-            border-radius: 8px;
-        }
+        .menu-btn { display: none; }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="overlay" id="overlay"></div>
-    <button class="mobile-menu-btn" id="crabMenu"><i class="fas fa-crab"></i></button>
-
-    <aside class="sidebar" id="sidebar">
-        <div class="logo-area">
-            <div class="logo">
-                <i class="fas fa-waveform"></i>
-                <span>xiexie</span>
-            </div>
-            <div class="sub">状态监测 · 快乐打工人观察器</div>
+<div class="app">
+    <div class="sidebar" id="sidebar">
+        <div class="profile">
+            <i class="fas fa-cat" style="font-size: 36px; color:#3b82f6;"></i>
+            <h1>xxy的demooo</h1>
+            <p style="margin-top: 8px; color:#64748b;">✨ 创意聚合 · 无限扩展</p>
         </div>
-        <div class="nav-list" id="navList"></div>
-    </aside>
-
-    <main class="main-content" id="mainContent">
-        <div class="search-header">
-            <div class="engine-selector" id="engineSelector">
-                <button data-engine="human" class="engine-btn active">🐻 人类</button>
-                <button data-engine="rabbit" class="engine-btn">🐇 小兔</button>
-                <button data-engine="monkey" class="engine-btn">🐒 猴子</button>
-            </div>
-            <div class="search-wrapper">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchKeyword" placeholder="输入加班 / 吃草 / 香蕉 等关键词... 影响监测指数">
-                <button id="searchActionBtn"><i class="fas fa-meteor"></i> 搜索·玄学变数</button>
-            </div>
+        <div class="demo-list" id="demoList"></div>
+        <div style="padding: 16px; font-size:12px; color:#94a3b8; text-align:center;">⬇️ 未来新demo自动出现</div>
+    </div>
+    <div class="preview">
+        <div class="toolbar">
+            <span id="currentTitle" style="font-weight:500;">选择一个demo</span>
+            <button id="openNewTab">新窗口打开</button>
         </div>
-        <div id="dynamicContent"></div>
-    </main>
+        <iframe id="demoFrame" src="about:blank" title="demo预览"></iframe>
+    </div>
 </div>
+<button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
 
 <script>
-    // ---------- 搞笑状态监测数据模型 ----------
-    // 一级分类
-    const categories = [
-        { id: "wisdom", name: "智慧指数", icon: "fa-brain", order: 1 },
-        { id: "health", name: "健康指数", icon: "fa-heartbeat", order: 2 },
-        { id: "mood", name: "心情指数", icon: "fa-face-smile", order: 3 },
-        { id: "vanish", name: "消失指数", icon: "fa-ghost", order: 4 },
-        { id: "anger", name: "愤怒指数", icon: "fa-fire", order: 5 }
+    // ======================== 👇 在这里配置你的demo ========================
+    const demos = [
+        {
+            name: "📱 小红书风格导航",
+            desc: "智能内容聚合 · 多级分类卡片",
+            path: "demo-v0.html"   // 对应你重命名后的文件名
+        },
+        {
+            name: "🐵 人猴兔趣味导航",
+            desc: "开发/设计/AI/效率工具",
+            path: "demo-renhoutu.html"
+        }
+        // ----- 以后添加新demo，直接复制下面格式，修改name和path即可 -----
+        // {
+        //     name: "🎨 新项目名称",
+        //     desc: "简短描述",
+        //     path: "new-demo.html"
+        // }
     ];
 
-    // 二级分类 & 卡片 (每个卡片包含：标题，指数值，描述，链接，图标)
-    // 为了方便动态更新，卡片数值(value)存储在模型中，并支持动态修改
-    let appData = {
-        wisdom: {
-            sub: [{ name: "脑力运转", key: "brain" }, { name: "决策质量", key: "decision" }],
-            cards: {
-                brain: [
-                    { id: "w_brain1", title: "智商余额", icon: "fa-microchip", value: 7, desc: "当前逻辑推理能力", url: "https://www.example.com/智商", defaultDesc: "当前逻辑推理能力" },
-                    { id: "w_brain2", title: "创意火花", icon: "fa-lightbulb", value: 6, desc: "灵感迸发频率", url: "https://www.example.com/创意" }
-                ],
-                decision: [
-                    { id: "w_dec1", title: "午餐选择力", icon: "fa-utensils", value: 8, desc: "纠结指数较低", url: "#" },
-                    { id: "w_dec2", title: "摸鱼时机", icon: "fa-fish", value: 5, desc: "偷懒智慧值", url: "#" }
-                ]
-            }
-        },
-        health: {
-            sub: [{ name: "体能状态", key: "energy" }, { name: "精神损伤", key: "spirit" }],
-            cards: {
-                energy: [
-                    { id: "h_eng1", title: "体力条", icon: "fa-bolt", value: 7, desc: "还能肝两小时", url: "#" },
-                    { id: "h_eng2", title: "颈椎预警", icon: "fa-spine", value: 4, desc: "咔咔作响", url: "#" }
-                ],
-                spirit: [
-                    { id: "h_sp1", title: "眼神涣散度", icon: "fa-eye", value: 6, desc: "逐渐失焦", url: "#" },
-                    { id: "h_sp2", title: "咖啡依赖", icon: "fa-mug-hot", value: 9, desc: "血液里流淌着拿铁", url: "#" }
-                ]
-            }
-        },
-        mood: {
-            sub: [{ name: "快乐指数", key: "happy" }, { name: "社畜笑颜", key: "smile" }],
-            cards: {
-                happy: [
-                    { id: "m_happy1", title: "愉悦值", icon: "fa-face-grin-tongue-squint", value: 5, desc: "今天有点小确丧", url: "#" },
-                    { id: "m_happy2", title: "吐槽能量", icon: "fa-comment-dots", value: 8, desc: "毒舌储备充足", url: "#" }
-                ],
-                smile: [
-                    { id: "m_smile1", title: "假笑功力", icon: "fa-face-smile-wink", value: 7, desc: "面对甲方专业假笑", url: "#" },
-                    { id: "m_smile2", title: "下班倒计时笑容", icon: "fa-clock", value: 9, desc: "越临近越高", url: "#" }
-                ]
-            }
-        },
-        vanish: {
-            sub: [{ name: "存在感", key: "exist" }, { name: "摸鱼隐身术", key: "stealth" }],
-            cards: {
-                exist: [
-                    { id: "v_ex1", title: "会议存在感", icon: "fa-users", value: 3, desc: "小透明附体", url: "#" },
-                    { id: "v_ex2", title: "工位可见度", icon: "fa-chair", value: 6, desc: "偶尔消失", url: "#" }
-                ],
-                stealth: [
-                    { id: "v_st1", title: "厕所遁术", icon: "fa-toilet", value: 8, desc: "消失大师级", url: "#" },
-                    { id: "v_st2", title: "假装忙碌", icon: "fa-laptop-code", value: 7, desc: "皱眉凝视屏幕", url: "#" }
-                ]
-            }
-        },
-        anger: {
-            sub: [{ name: "易燃易爆", key: "explode" }, { name: "核平前摇", key: "nuclear" }],
-            cards: {
-                explode: [
-                    { id: "a_exp1", title: "怒气值", icon: "fa-face-angry", value: 2, desc: "岁月静好", url: "#" },
-                    { id: "a_exp2", title: "摔鼠标冲动", icon: "fa-computer-mouse", value: 1, desc: "温柔如羊", url: "#" }
-                ],
-                nuclear: [
-                    { id: "a_nuc1", title: "毁灭倾向", icon: "fa-radiation", value: 1, desc: "核平使者", url: "#" },
-                    { id: "a_nuc2", title: "忍耐阈值", icon: "fa-gauge-high", value: 4, desc: "尚有空间", url: "#" }
-                ]
-            }
-        }
-    };
+    // ---------- 以下代码无需修改 ----------
+    let activeDemo = null;
+    const demoListDiv = document.getElementById('demoList');
+    const iframe = document.getElementById('demoFrame');
+    const currentTitleSpan = document.getElementById('currentTitle');
+    const openNewTabBtn = document.getElementById('openNewTabBtn');
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.getElementById('menuBtn');
 
-    // 存储当前激活的二级分类 tab (每个一级分类下)
-    let activeSubTab = {
-        wisdom: "brain",
-        health: "energy",
-        mood: "happy",
-        vanish: "exist",
-        anger: "explode"
-    };
-    // 爆炸标记集合 (记录需要爆炸动画的卡片id)
-    let angryExplodeSet = new Set(); // 存储卡片id
-
-    // 辅助深拷贝值更新后保留引用
-    function updateCardValue(categoryId, subKey, cardId, newValue, newDesc = null) {
-        const category = appData[categoryId];
-        if (category && category.cards[subKey]) {
-            const card = category.cards[subKey].find(c => c.id === cardId);
-            if (card) {
-                card.value = Math.min(10, Math.max(0, newValue));
-                if (newDesc) card.desc = newDesc;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // 根据引擎&关键词改变各指数（搞笑逻辑）
-    function applyMagicEffect(engine, keyword) {
-        // 重置爆炸标记（每次搜索重新评估）
-        angryExplodeSet.clear();
-        const kw = keyword.toLowerCase().trim();
-        // 人类特殊
-        if (engine === "human") {
-            if (kw.includes("加班")) {
-                updateCardValue("wisdom", "brain", "w_brain1", 1, "加班榨干智商，只剩机械反应");
-                updateCardValue("mood", "happy", "m_happy1", 0, "快乐蒸发，生无可恋");
-                updateCardValue("anger", "explode", "a_exp1", 10, "🔥🔥🔥 怒发冲冠 🔥🔥🔥");
-                angryExplodeSet.add("a_exp1");   // 标记爆炸动画卡片
-                updateCardValue("health", "energy", "h_eng1", 2, "体力归零，被掏空");
-            } 
-            else if (kw.includes("吃草")) {
-                updateCardValue("mood", "happy", "m_happy1", 3, "吃草使人忧郁，快乐值低");
-            }
-            else if (kw.includes("摸鱼")) {
-                updateCardValue("vanish", "stealth", "v_st1", 10, "摸鱼王者，瞬间消失");
-                updateCardValue("wisdom", "brain", "w_brain1", 9, "摸鱼激发智慧创造力");
-            }
-        } 
-        else if (engine === "rabbit") {
-            if (kw.includes("吃草")) {
-                updateCardValue("mood", "happy", "m_happy1", 10, "兔子吃草！快乐拉满！蹦蹦跳跳");
-                updateCardValue("health", "energy", "h_eng1", 9, "充满胡萝卜力量");
-            }
-            else if (kw.includes("加班")) {
-                updateCardValue("anger", "explode", "a_exp1", 8, "兔子也暴躁，啃键盘");
-                angryExplodeSet.add("a_exp1");
-            }
-            else if (kw.includes("胡萝卜")) {
-                updateCardValue("mood", "happy", "m_happy1", 10, "看到胡萝卜直接升天");
-            }
-        } 
-        else if (engine === "monkey") {
-            if (kw.includes("香蕉")) {
-                updateCardValue("vanish", "exist", "v_ex1", 0, "猴子偷香蕉，存在感归零");
-                updateCardValue("anger", "explode", "a_exp1", 9, "猴子抢走香蕉，愤怒暴涨");
-                angryExplodeSet.add("a_exp1");
-            }
-            else if (kw.includes("爬树")) {
-                updateCardValue("health", "energy", "h_eng1", 10, "猴子体力无敌");
-            }
-            else if (kw.includes("捣乱")) {
-                updateCardValue("wisdom", "brain", "w_brain1", 2, "捣乱降智");
-            }
-        }
-        // 额外通用彩蛋
-        if (kw.includes("放假")) {
-            updateCardValue("mood", "happy", "m_happy1", 10, "听到放假直接颅内高潮");
-            updateCardValue("anger", "explode", "a_exp1", 0, "瞬间没脾气");
-        }
-        if (kw.includes("老板")) {
-            updateCardValue("anger", "explode", "a_exp1", 9, "老板出现，血压拉满");
-            angryExplodeSet.add("a_exp1");
-        }
-        // 确保数值边界 再渲染
-    }
-
-    // 打开搜索引擎新标签页 (根据引擎)
-    function openWebSearch(engine, keyword) {
-        let searchUrl = "";
-        if (engine === "human") searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`;
-        else if (engine === "rabbit") searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(keyword)}`;
-        else searchUrl = `https://www.so.com/s?q=${encodeURIComponent(keyword)}`;
-        window.open(searchUrl, "_blank");
-    }
-
-    // ---------- 动态渲染右侧内容 (完全基于appData + activeSubTab + 爆炸标记) ----------
-    function renderMainContent() {
-        const container = document.getElementById("dynamicContent");
-        container.innerHTML = "";
-        const sortedCats = [...categories].sort((a,b)=>a.order-b.order);
-        for (let cat of sortedCats) {
-            const section = document.createElement("section");
-            section.className = "category-section";
-            section.id = `section-${cat.id}`;
-            section.setAttribute("data-category", cat.id);
-            // 标题
-            const titleDiv = document.createElement("div");
-            titleDiv.className = "section-title";
-            titleDiv.innerHTML = `<i class="fas ${cat.icon}"></i><h2>${cat.name}</h2>`;
-            section.appendChild(titleDiv);
-
-            // 二级tabs
-            const subData = appData[cat.id].sub;
-            const tabsContainer = document.createElement("div");
-            tabsContainer.className = "sub-tabs";
-            subData.forEach(sub => {
-                const tab = document.createElement("div");
-                tab.className = `tab-item ${activeSubTab[cat.id] === sub.key ? 'active' : ''}`;
-                tab.dataset.category = cat.id;
-                tab.dataset.subkey = sub.key;
-                tab.innerText = sub.name;
-                tabsContainer.appendChild(tab);
+    function renderDemoList() {
+        demoListDiv.innerHTML = '';
+        demos.forEach((demo, idx) => {
+            const card = document.createElement('div');
+            card.className = 'demo-card';
+            if (activeDemo && activeDemo.path === demo.path) card.classList.add('active');
+            card.innerHTML = `<h3>${demo.name}</h3><p>${demo.desc}</p>`;
+            card.addEventListener('click', () => {
+                loadDemo(demo);
+                if (window.innerWidth <= 700) sidebar.classList.remove('open');
             });
-            section.appendChild(tabsContainer);
+            demoListDiv.appendChild(card);
+        });
+        if (demos.length && !activeDemo) loadDemo(demos[0]);
+    }
 
-            // 卡片网格: 只显示当前激活的二级分类对应的卡片组
-            const currentSubKey = activeSubTab[cat.id];
-            const cardsArray = appData[cat.id].cards[currentSubKey] || [];
-            const gridDiv = document.createElement("div");
-            gridDiv.className = "card-grid";
-            cardsArray.forEach(card => {
-                const cardDiv = document.createElement("div");
-                cardDiv.className = "card";
-                if (angryExplodeSet.has(card.id)) {
-                    cardDiv.classList.add("angry-explode");
-                }
-                cardDiv.setAttribute("data-url", card.url || "https://www.zhihu.com/question/29186054");
-                // 指数值特殊红色高亮处理
-                const isHighAngry = (card.id === "a_exp1" && card.value >= 8);
-                const valueSpan = `<span class="card-value ${isHighAngry ? 'high-value' : ''}">🔥 ${card.value}/10</span>`;
-                cardDiv.innerHTML = `
-                    <div class="card-icon"><i class="${card.icon}"></i></div>
-                    <div class="card-content">
-                        <div class="card-title">
-                            ${card.title}
-                            ${valueSpan}
-                        </div>
-                        <div class="card-desc">${card.desc}</div>
-                    </div>
-                `;
-                gridDiv.appendChild(cardDiv);
-            });
-            section.appendChild(gridDiv);
-            container.appendChild(section);
+    function loadDemo(demo) {
+        activeDemo = demo;
+        currentTitleSpan.innerText = demo.name;
+        iframe.src = demo.path;
+        // 高亮更新
+        document.querySelectorAll('.demo-card').forEach((card, i) => {
+            if (demos[i].path === demo.path) card.classList.add('active');
+            else card.classList.remove('active');
+        });
+    }
+
+    openNewTabBtn.addEventListener('click', () => {
+        if (activeDemo) window.open(activeDemo.path, '_blank');
+    });
+
+    menuBtn?.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
+    window.addEventListener('click', (e) => {
+        if (window.innerWidth <= 700 && !sidebar.contains(e.target) && e.target !== menuBtn) {
+            sidebar.classList.remove('open');
         }
-        // 重新绑定卡片点击事件
-        attachCardClickEvents();
-        // 重新绑定tab切换事件
-        attachTabEvents();
-        // 重新绑定滚动监听 & 高亮修正 (因为dom变化)
-        attachScrollSpy();
-        highlightActiveNavByScroll();
-    }
+    });
 
-    function attachCardClickEvents() {
-        document.querySelectorAll(".card").forEach(card => {
-            card.removeEventListener("click", cardClickHandler);
-            card.addEventListener("click", cardClickHandler);
-        });
-    }
-    function cardClickHandler(e) {
-        const url = this.getAttribute("data-url");
-        if (url && url !== "#") window.open(url, "_blank");
-        else window.open("https://www.xiaoyuzhoufm.com/", "_blank");
-    }
-    function attachTabEvents() {
-        document.querySelectorAll(".tab-item").forEach(tab => {
-            tab.removeEventListener("click", tabClickHandler);
-            tab.addEventListener("click", tabClickHandler);
-        });
-    }
-    function tabClickHandler(e) {
-        const category = this.dataset.category;
-        const subkey = this.dataset.subkey;
-        if (!category || !subkey) return;
-        activeSubTab[category] = subkey;
-        renderMainContent();      // 重新渲染右侧
-        attachNavClickEvents();   // 保证左侧导航点击依然有效
-        attachScrollSpy();
-    }
-
-    // 左侧导航渲染
-    function renderSidebarNav() {
-        const navContainer = document.getElementById("navList");
-        navContainer.innerHTML = "";
-        categories.sort((a,b)=>a.order-b.order).forEach(cat => {
-            const btn = document.createElement("button");
-            btn.className = "nav-btn";
-            btn.dataset.id = cat.id;
-            btn.innerHTML = `<i class="fas ${cat.icon}"></i><span>${cat.name}</span>`;
-            navContainer.appendChild(btn);
-        });
-        attachNavClickEvents();
-    }
-    function attachNavClickEvents() {
-        document.querySelectorAll(".nav-btn").forEach(btn => {
-            btn.removeEventListener("click", navClickHandler);
-            btn.addEventListener("click", navClickHandler);
-        });
-    }
-    function navClickHandler(e) {
-        const catId = this.dataset.id;
-        const target = document.getElementById(`section-${catId}`);
-        if (target) {
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-            if (window.innerWidth <= 768) closeSidebar();
-        }
-    }
-    // 滚动监听 + 高亮
-    let scrollListenerActive = false;
-    function attachScrollSpy() {
-        if (scrollListenerActive) {
-            document.getElementById("mainContent")?.removeEventListener("scroll", scrollSpyHandler);
-        }
-        const scrollEl = document.getElementById("mainContent");
-        if (scrollEl) {
-            scrollEl.addEventListener("scroll", scrollSpyHandler);
-            scrollListenerActive = true;
-        }
-        highlightActiveNavByScroll();
-    }
-    function scrollSpyHandler() {
-        highlightActiveNavByScroll();
-    }
-    function highlightActiveNavByScroll() {
-        const sections = document.querySelectorAll(".category-section");
-        let currentId = null;
-        const scrollContainer = document.getElementById("mainContent");
-        if (!scrollContainer) return;
-        const scrollPos = scrollContainer.scrollTop + 100;
-        for (let sec of sections) {
-            const offsetTop = sec.offsetTop;
-            const offsetBottom = offsetTop + sec.offsetHeight;
-            if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
-                currentId = sec.dataset.category;
-                break;
-            }
-        }
-        if (!currentId && sections.length) currentId = sections[0]?.dataset.category;
-        document.querySelectorAll(".nav-btn").forEach(btn => {
-            if (btn.dataset.id === currentId) btn.classList.add("active");
-            else btn.classList.remove("active");
-        });
-    }
-
-    // 搜索逻辑整合
-    let currentEngine = "human";
-    function initSearch() {
-        const engineBtns = document.querySelectorAll(".engine-btn");
-        engineBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                engineBtns.forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                currentEngine = btn.dataset.engine;
-            });
-        });
-        const searchInput = document.getElementById("searchKeyword");
-        const searchBtn = document.getElementById("searchActionBtn");
-        const doSearchAndEffect = () => {
-            let keyword = searchInput.value.trim();
-            if (keyword === "") return;
-            // 1. 改变指数（搞笑模拟）
-            applyMagicEffect(currentEngine, keyword);
-            // 2. 重新渲染整个右侧区域，显示新指数+爆炸动画卡片
-            renderMainContent();
-            attachNavClickEvents();
-            // 3. 打开真实搜索引擎搜索（满足多引擎切换搜索需求）
-            openWebSearch(currentEngine, keyword);
-        };
-        searchBtn.addEventListener("click", doSearchAndEffect);
-        searchInput.addEventListener("keypress", (e) => { if (e.key === "Enter") doSearchAndEffect(); });
-    }
-
-    // 移动端sidebar控制
-    const sidebarEl = document.getElementById("sidebar");
-    const overlay = document.getElementById("overlay");
-    const crabBtn = document.getElementById("crabMenu");
-    function openSidebar() { sidebarEl.classList.add("open"); overlay.style.display = "block"; }
-    function closeSidebar() { sidebarEl.classList.remove("open"); overlay.style.display = "none"; }
-    crabBtn.addEventListener("click", openSidebar);
-    overlay.addEventListener("click", closeSidebar);
-    window.addEventListener("resize", () => { if (window.innerWidth > 768) closeSidebar(); });
-
-    // 初始化
-    function init() {
-        renderSidebarNav();
-        renderMainContent();
-        initSearch();
-        attachScrollSpy();
-        attachNavClickEvents();
-    }
-    init();
+    renderDemoList();
 </script>
 </body>
 </html>

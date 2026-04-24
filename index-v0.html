@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>智能导航中心 | 资源聚合站</title>
+    <!-- Font Awesome 6 (免费图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts 增强字体体验 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 整体布局容器 */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ========= 左侧导航栏 (桌面Sticky风格) ========= */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #e9eef3;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.02);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 1000;
+            overflow-y: auto;
+            flex-shrink: 0;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        /* Logo区域 */
+        .logo-area {
+            padding: 28px 24px 20px 24px;
+            border-bottom: 1px solid #eff3f8;
+            margin-bottom: 16px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .logo i {
+            background: none;
+            background-clip: unset;
+            -webkit-background-clip: unset;
+            color: #3b82f6;
+            font-size: 28px;
+        }
+        .logo span {
+            background: linear-gradient(135deg, #1e40af, #4338ca);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .sub {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        /* 导航按钮列表 */
+        .nav-list {
+            flex: 1;
+            padding: 0 16px 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-weight: 500;
+            font-size: 1rem;
+            color: #475569;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+        .nav-btn i {
+            width: 24px;
+            font-size: 1.25rem;
+            color: #6c86a3;
+        }
+        .nav-btn:hover {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        .nav-btn.active {
+            background: #eef2ff;
+            color: #2563eb;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .nav-btn.active i {
+            color: #2563eb;
+        }
+
+        /* 右侧主内容区 (滚动区域) */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            background: #f9fafc;
+            scroll-behavior: smooth;
+            padding: 0 32px 48px 32px;
+            position: relative;
+        }
+
+        /* 顶部搜索栏 */
+        .search-header {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+            padding: 12px 20px;
+            margin: 24px 0 32px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: blur(2px);
+            border: 1px solid #edf2f7;
+        }
+        .engine-selector {
+            display: flex;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 48px;
+        }
+        .engine-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #334155;
+        }
+        .engine-btn.active {
+            background: white;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-weight: 600;
+        }
+        .search-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8fafc;
+            border-radius: 48px;
+            padding: 4px 16px;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+        }
+        .search-wrapper:focus-within {
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+        }
+        .search-wrapper i {
+            color: #94a3b8;
+        }
+        .search-wrapper input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 0;
+            font-size: 0.95rem;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .search-wrapper button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #3b82f6;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 32px;
+            transition: 0.2s;
+        }
+        .search-wrapper button:hover {
+            background: #eef2ff;
+        }
+
+        /* 内容区块 */
+        .category-section {
+            scroll-margin-top: 24px;
+            margin-bottom: 48px;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border-left: 5px solid #3b82f6;
+            padding-left: 18px;
+        }
+        .section-title h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        /* 二级分类 Tab 样式 */
+        .sub-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0 20px 18px;
+        }
+        .tab-item {
+            padding: 8px 20px;
+            background: #ffffff;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.02);
+        }
+        .tab-item.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+            box-shadow: 0 4px 8px rgba(37,99,235,0.2);
+        }
+        .tab-item:hover:not(.active) {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        /* 卡片网格布局 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+        /* 卡片组件 */
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            gap: 18px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+            border-color: #cbdffc;
+            background: #fefefe;
+        }
+        .card-icon {
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            background: #eff6ff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #2563eb;
+        }
+        .card-content {
+            flex: 1;
+        }
+        .card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            color: #0f172a;
+        }
+        .card-desc {
+            font-size: 0.85rem;
+            color: #5b6e8c;
+            line-height: 1.4;
+        }
+
+        /* 汉堡菜单按钮 (移动端) */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 18px;
+            left: 20px;
+            z-index: 1100;
+            background: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #1e293b;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+            backdrop-filter: blur(2px);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: translateX(-100%);
+                z-index: 1050;
+                width: 280px;
+                box-shadow: 5px 0 20px rgba(0,0,0,0.1);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                padding: 60px 20px 40px 20px;
+            }
+            .search-header {
+                margin-top: 8px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .engine-selector {
+                justify-content: center;
+            }
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #eef2f6;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- 移动端遮罩层 -->
+    <div class="overlay" id="overlay"></div>
+    <!-- 汉堡菜单按钮 -->
+    <button class="mobile-menu-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
+
+    <!-- 左侧导航栏 Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-area">
+            <div class="logo">
+                <i class="fas fa-compass"></i>
+                <span>智能内容中心</span>
+            </div>
+            <div class="sub">导航 · 聚合 · 灵感</div>
+        </div>
+        <div class="nav-list" id="navList">
+            <!-- 动态注入导航按钮 js动态生成但也可以写静态，为了方便同步数据我们使用js动态渲染, 但为结构清晰静态占位+动态刷新 -->
+        </div>
+    </aside>
+
+    <!-- 右侧主内容区 -->
+    <main class="main-content" id="mainContent">
+        <!-- 搜索区 -->
+        <div class="search-header">
+            <div class="engine-selector" id="engineSelector">
+                <button data-engine="baidu" class="engine-btn active">百度</button>
+                <button data-engine="google" class="engine-btn">Google</button>
+                <button data-engine="bing" class="engine-btn">Bing</button>
+            </div>
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="输入关键词，多引擎一键搜索...">
+                <button id="searchBtn"><i class="fas fa-arrow-right"></i> 搜索</button>
+            </div>
+        </div>
+
+        <!-- 动态内容区域: 根据一级分类动态生成 category-section -->
+        <div id="dynamicContent"></div>
+    </main>
+</div>
+
+<script>
+    // ----------------------------- 模拟数据结构（一级分类 + 二级分类 + 卡片链接）--------------------------------
+    // 完全符合现代设计：精美卡片，可点击新标签页打开
+    const siteData = {
+        categories: [
+            { id: "dev", name: "开发资源", icon: "fa-code", order: 1 },
+            { id: "design", name: "设计灵感", icon: "fa-palette", order: 2 },
+            { id: "ai", name: "AI 工具", icon: "fa-brain", order: 3 },
+            { id: "productivity", name: "效率利器", icon: "fa-clock", order: 4 }
+        ],
+        // 每个一级分类对应的二级分类以及卡片
+        subcategories: {
+            dev: [
+                { name: "前端框架", key: "frontend" },
+                { name: "后端技术", key: "backend" },
+                { name: "开发者社区", key: "community" }
+            ],
+            design: [
+                { name: "设计系统", key: "designsys" },
+                { name: "素材资源", key: "assets" },
+                { name: "灵感案例", key: "inspire" }
+            ],
+            ai: [
+                { name: "大模型平台", key: "llm" },
+                { name: "AI绘画", key: "aipaint" },
+                { name: "效率AI", key: "aiefficiency" }
+            ],
+            productivity: [
+                { name: "笔记协作", key: "notes" },
+                { name: "自动化", key: "auto" },
+                { name: "时间管理", key: "timemgmt" }
+            ]
+        },
+        // 卡片内容 [分类id][二级分类key] 返回卡片数组
+        cards: {
+            dev: {
+                frontend: [
+                    { title: "React 官方文档", desc: "现代化前端框架最新指南", icon: "fab fa-react", url: "https://react.dev/" },
+                    { title: "Vue.js 中文", desc: "渐进式JS框架，易用高效", icon: "fab fa-vuejs", url: "https://cn.vuejs.org/" },
+                    { title: "Tailwind CSS", desc: "实用优先CSS框架，快速构建", icon: "fab fa-css3-alt", url: "https://tailwindcss.com/" }
+                ],
+                backend: [
+                    { title: "Node.js", desc: "JavaScript 服务端运行环境", icon: "fab fa-node-js", url: "https://nodejs.org/" },
+                    { title: "Python 官网", desc: "优雅简洁的后端语言", icon: "fab fa-python", url: "https://www.python.org/" },
+                    { title: "Go 语言", desc: "高性能后端开发利器", icon: "fab fa-golang", url: "https://go.dev/" }
+                ],
+                community: [
+                    { title: "GitHub", desc: "全球开发者开源协作平台", icon: "fab fa-github", url: "https://github.com/" },
+                    { title: "Stack Overflow", desc: "技术问答社区", icon: "fab fa-stack-overflow", url: "https://stackoverflow.com/" },
+                    { title: "掘金", desc: "国内优质技术博客社区", icon: "fas fa-gem", url: "https://juejin.cn/" }
+                ]
+            },
+            design: {
+                designsys: [
+                    { title: "Material Design", desc: "Google 设计语言规范", icon: "fab fa-google", url: "https://material.io/" },
+                    { title: "Ant Design", desc: "企业级产品设计体系", icon: "fas fa-ants", url: "https://ant.design/" },
+                    { title: "Figma", desc: "在线协作UI设计工具", icon: "fab fa-figma", url: "https://www.figma.com/" }
+                ],
+                assets: [
+                    { title: "Unsplash", desc: "免费高质量图片", icon: "fas fa-image", url: "https://unsplash.com/" },
+                    { title: "Iconify", desc: "海量开源图标库", icon: "fas fa-icons", url: "https://iconify.design/" },
+                    { title: "Freepik", desc: "矢量插画与设计资源", icon: "fas fa-paintbrush", url: "https://www.freepik.com/" }
+                ],
+                inspire: [
+                    { title: "Awwwards", desc: "网页设计颁奖展示", icon: "fas fa-trophy", url: "https://www.awwwards.com/" },
+                    { title: "Behance", desc: "创意设计作品集", icon: "fab fa-behance", url: "https://www.behance.net/" },
+                    { title: "Dribbble", desc: "设计师社区灵感", icon: "fab fa-dribbble", url: "https://dribbble.com/" }
+                ]
+            },
+            ai: {
+                llm: [
+                    { title: "OpenAI", desc: "GPT系列模型与API", icon: "fas fa-robot", url: "https://openai.com/" },
+                    { title: "DeepSeek", desc: "中文领先大模型平台", icon: "fas fa-microchip", url: "https://www.deepseek.com/" },
+                    { title: "Claude AI", desc: "安全高情商助手", icon: "fas fa-comment-dots", url: "https://claude.ai/" }
+                ],
+                aipaint: [
+                    { title: "Midjourney", desc: "顶尖AI绘画工具", icon: "fas fa-palette", url: "https://www.midjourney.com/" },
+                    { title: "Stable Diffusion", desc: "开源绘画模型", icon: "fas fa-cloud-upload-alt", url: "https://stability.ai/" },
+                    { title: "Leonardo.ai", desc: "创意生成平台", icon: "fas fa-dragon", url: "https://leonardo.ai/" }
+                ],
+                aiefficiency: [
+                    { title: "Notion AI", desc: "文档智能助手", icon: "fas fa-file-alt", url: "https://www.notion.so/" },
+                    { title: "Gamma", desc: "AI生成PPT工具", icon: "fas fa-chalkboard", url: "https://gamma.app/" },
+                    { title: "Perplexity AI", desc: "智能答案引擎", icon: "fas fa-search", url: "https://www.perplexity.ai/" }
+                ]
+            },
+            productivity: {
+                notes: [
+                    { title: "Notion", desc: "一体化工作空间", icon: "fas fa-book", url: "https://www.notion.so/" },
+                    { title: "Obsidian", desc: "双链笔记知识库", icon: "fas fa-database", url: "https://obsidian.md/" },
+                    { title: "飞书文档", desc: "企业协作文档", icon: "fas fa-cloud", url: "https://www.feishu.cn/" }
+                ],
+                auto: [
+                    { title: "Zapier", desc: "自动化工作流连接器", icon: "fas fa-link", url: "https://zapier.com/" },
+                    { title: "Make", desc: "可视化自动化平台", icon: "fas fa-cogs", url: "https://www.make.com/" },
+                    { title: "IFTTT", desc: "互联网触发联动", icon: "fas fa-bolt", url: "https://ifttt.com/" }
+                ],
+                timemgmt: [
+                    { title: "Trello", desc: "看板任务管理", icon: "fab fa-trello", url: "https://trello.com/" },
+                    { title: "Todoist", desc: "待办清单工具", icon: "fas fa-check-circle", url: "https://todoist.com/" },
+                    { title: "Forest", desc: "专注番茄钟", icon: "fas fa-tree", url: "https://www.forestapp.cc/" }
+                ]
+            }
+        }
+    };
+
+    // 存储当前每个分类下激活的二级Tab (key: 一级分类id, value: 当前二级分类key)
+    let activeSubTab = {
+        dev: "frontend",
+        design: "designsys",
+        ai: "llm",
+        productivity: "notes"
+    };
+
+    // 获取dom元素
+    const mainContainer = document.getElementById("dynamicContent");
+    const navListEl = document.getElementById("navList");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const menuToggle = document.getElementById("menuToggle");
+    const mainContent = document.getElementById("mainContent");
+
+    // 渲染整个页面：左侧导航 + 右侧所有分类区域 + 卡片 + tab事件
+    function renderFullPage() {
+        renderSidebarNav();
+        renderContentSections();
+        attachScrollSpy();      // 滚动监听
+        attachNavClickEvents(); // 左侧点击平滑滚动
+        attachTabEvents();      // 动态绑定tab切换
+        attachCardClickEvents();// 卡片点击新窗口
+        highlightActiveNavByScroll(); // 初始滚动位置高亮
+    }
+
+    // 渲染左侧导航按钮
+    function renderSidebarNav() {
+        navListEl.innerHTML = "";
+        siteData.categories.sort((a,b)=>a.order-b.order).forEach(cat => {
+            const btn = document.createElement("button");
+            btn.className = "nav-btn";
+            btn.dataset.id = cat.id;
+            btn.innerHTML = `<i class="fas ${cat.icon}"></i><span>${cat.name}</span>`;
+            navListEl.appendChild(btn);
+        });
+    }
+
+    // 生成右侧所有内容区 (包含每个分类的标题，二级tabs，卡片网格)
+    function renderContentSections() {
+        mainContainer.innerHTML = "";
+        const sortedCats = [...siteData.categories].sort((a,b)=>a.order-b.order);
+        for (let cat of sortedCats) {
+            const section = document.createElement("section");
+            section.className = "category-section";
+            section.id = `section-${cat.id}`;
+            section.setAttribute("data-category", cat.id);
+            // 标题
+            const titleDiv = document.createElement("div");
+            titleDiv.className = "section-title";
+            titleDiv.innerHTML = `<h2><i class="fas ${cat.icon}" style="margin-right:12px"></i> ${cat.name}</h2>`;
+            section.appendChild(titleDiv);
+
+            // 二级分类tabs容器
+            const subTabsContainer = document.createElement("div");
+            subTabsContainer.className = "sub-tabs";
+            subTabsContainer.id = `tabs-${cat.id}`;
+            const subList = siteData.subcategories[cat.id] || [];
+            subList.forEach(sub => {
+                const tabBtn = document.createElement("div");
+                tabBtn.className = `tab-item ${activeSubTab[cat.id] === sub.key ? 'active' : ''}`;
+                tabBtn.dataset.category = cat.id;
+                tabBtn.dataset.subkey = sub.key;
+                tabBtn.innerText = sub.name;
+                subTabsContainer.appendChild(tabBtn);
+            });
+            section.appendChild(subTabsContainer);
+
+            // 卡片网格容器 (多个二级分类的网格，但通过js控制显示隐藏)
+            const gridWrapper = document.createElement("div");
+            gridWrapper.id = `grid-wrapper-${cat.id}`;
+            // 为每个二级分类单独建一个grid，方便切换显示隐藏
+            const subKeys = subList.map(s => s.key);
+            subKeys.forEach(key => {
+                const gridDiv = document.createElement("div");
+                gridDiv.className = "card-grid";
+                gridDiv.id = `grid-${cat.id}-${key}`;
+                gridDiv.style.display = (activeSubTab[cat.id] === key) ? "grid" : "none";
+                // 填充卡片
+                const cardsArray = siteData.cards[cat.id]?.[key] || [];
+                cardsArray.forEach(card => {
+                    const cardEl = createCardElement(card);
+                    gridDiv.appendChild(cardEl);
+                });
+                gridWrapper.appendChild(gridDiv);
+            });
+            section.appendChild(gridWrapper);
+            mainContainer.appendChild(section);
+        }
+    }
+
+    // 创建卡片DOM (图标 + 标题 + 描述， 点击新窗口)
+    function createCardElement(card) {
+        const cardDiv = document.createElement("div");
+        cardDiv.className = "card";
+        // 存储链接
+        cardDiv.setAttribute("data-url", card.url);
+        cardDiv.innerHTML = `
+            <div class="card-icon"><i class="${card.icon}"></i></div>
+            <div class="card-content">
+                <div class="card-title">${escapeHtml(card.title)}</div>
+                <div class="card-desc">${escapeHtml(card.desc)}</div>
+            </div>
+        `;
+        return cardDiv;
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // 绑定卡片点击事件（委托）
+    function attachCardClickEvents() {
+        mainContainer.querySelectorAll(".card").forEach(card => {
+            card.removeEventListener("click", cardClickHandler);
+            card.addEventListener("click", cardClickHandler);
+        });
+    }
+
+    function cardClickHandler(e) {
+        const url = this.getAttribute("data-url");
+        if (url) {
+            window.open(url, "_blank", "noopener,noreferrer");
+        }
+    }
+
+    // 二级Tab切换事件 (动态绑定)
+    function attachTabEvents() {
+        const allTabs = document.querySelectorAll(".tab-item");
+        allTabs.forEach(tab => {
+            tab.removeEventListener("click", tabClickHandler);
+            tab.addEventListener("click", tabClickHandler);
+        });
+    }
+
+    function tabClickHandler(e) {
+        const category = this.dataset.category;
+        const subkey = this.dataset.subkey;
+        if (!category || !subkey) return;
+        // 更新 activeSubTab 状态
+        activeSubTab[category] = subkey;
+        // 更新当前分类下所有tab样式
+        const tabsContainer = document.getElementById(`tabs-${category}`);
+        if (tabsContainer) {
+            Array.from(tabsContainer.children).forEach(child => {
+                if (child.dataset.subkey === subkey) {
+                    child.classList.add("active");
+                } else {
+                    child.classList.remove("active");
+                }
+            });
+        }
+        // 切换对应的卡片网格显示
+        const wrapper = document.getElementById(`grid-wrapper-${category}`);
+        if (wrapper) {
+            const allGrids = wrapper.querySelectorAll(".card-grid");
+            allGrids.forEach(grid => {
+                const gridId = grid.id;
+                const expectedSuffix = `-${subkey}`;
+                if (gridId.endsWith(expectedSuffix)) {
+                    grid.style.display = "grid";
+                } else {
+                    grid.style.display = "none";
+                }
+            });
+        }
+        // 重新挂载卡片点击事件
+        attachCardClickEvents();
+    }
+
+    // 滚动监听: 高亮左侧导航
+    function attachScrollSpy() {
+        mainContent.addEventListener("scroll", () => {
+            highlightActiveNavByScroll();
+        });
+    }
+
+    function highlightActiveNavByScroll() {
+        const sections = document.querySelectorAll(".category-section");
+        let currentSectionId = null;
+        const scrollPos = mainContent.scrollTop + 100;
+        sections.forEach(section => {
+            const offsetTop = section.offsetTop;
+            const offsetBottom = offsetTop + section.offsetHeight;
+            if (scrollPos >= offsetTop && scrollPos < offsetBottom) {
+                currentSectionId = section.dataset.category;
+            }
+        });
+        if (!currentSectionId && sections.length) currentSectionId = sections[0]?.dataset.category;
+        const navBtns = document.querySelectorAll(".nav-btn");
+        navBtns.forEach(btn => {
+            if (btn.dataset.id === currentSectionId) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+    }
+
+    // 点击左侧导航平滑滚动
+    function attachNavClickEvents() {
+        const navBtns = document.querySelectorAll(".nav-btn");
+        navBtns.forEach(btn => {
+            btn.removeEventListener("click", navClickHandler);
+            btn.addEventListener("click", navClickHandler);
+        });
+    }
+
+    function navClickHandler(e) {
+        const catId = this.dataset.id;
+        const targetSection = document.getElementById(`section-${catId}`);
+        if (targetSection) {
+            targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            // 移动端点击后自动关闭侧边栏
+            if (window.innerWidth <= 768) {
+                closeSidebar();
+            }
+        }
+    }
+
+    // 移动端菜单逻辑
+    function openSidebar() {
+        sidebar.classList.add("open");
+        overlay.style.display = "block";
+    }
+    function closeSidebar() {
+        sidebar.classList.remove("open");
+        overlay.style.display = "none";
+    }
+    menuToggle.addEventListener("click", openSidebar);
+    overlay.addEventListener("click", closeSidebar);
+
+    // 多引擎搜索功能
+    let currentEngine = "baidu";
+    function initSearchEngine() {
+        const engineBtns = document.querySelectorAll(".engine-btn");
+        engineBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                engineBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentEngine = btn.dataset.engine;
+            });
+        });
+        const searchInput = document.getElementById("searchInput");
+        const searchBtn = document.getElementById("searchBtn");
+        const doSearch = () => {
+            const keyword = searchInput.value.trim();
+            if (!keyword) return;
+            let searchUrl = "";
+            if (currentEngine === "baidu") searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`;
+            else if (currentEngine === "google") searchUrl = `https://www.google.com/search?q=${encodeURIComponent(keyword)}`;
+            else if (currentEngine === "bing") searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(keyword)}`;
+            window.open(searchUrl, "_blank");
+        };
+        searchBtn.addEventListener("click", doSearch);
+        searchInput.addEventListener("keypress", (e) => { if (e.key === "Enter") doSearch(); });
+    }
+
+    // 整体初始化
+    function init() {
+        renderFullPage();
+        initSearchEngine();
+        // 窗口resize时关闭侧边栏防止异常
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 768) closeSidebar();
+        });
+    }
+
+    init();
+</script>
+</body>
+</html>
